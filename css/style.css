@@ -1,0 +1,630 @@
+/* ============================================================
+     TOKENS
+     A console/case-file identity built for a SOC & detection-
+     engineering profile: a night-shift ops screen, not a generic
+     dark-mode SaaS page. Two functional accents (amber = alert,
+     teal = detection/resolved), used the way a real SIEM would
+     use them — never decorative.
+  ============================================================ */
+  :root{
+    --bg:        #0A0E1A;
+    --panel:     #0F1626;
+    --panel-2:   #131C31;
+    --line:      #223050;
+    --line-soft: #1A253E;
+    --text:      #E9EDF5;
+    --text-dim:  #8C99B4;
+    --text-faint:#5C6885;
+    --amber:     #E8A33D;
+    --teal:      #3FBFAD;
+    --red:       #D9635C;
+
+    --font-sans: 'IBM Plex Sans', -apple-system, Segoe UI, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+
+    --maxw: 980px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-sans);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{ color:inherit; }
+
+  ::selection{ background:var(--amber); color:#0A0E1A; }
+
+  :focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+  }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  @media (max-width:640px){
+    body{ font-size:15px; }
+    .wrap{ padding:0 18px; }
+  }
+
+  /* ============================================================
+     TOP STATUS BAR — behaves like a real ops console header:
+     live local time + monitoring state. Functional, not decor.
+  ============================================================ */
+  .statusbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,14,26,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .statusbar-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:10px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .statusbar-id{ color:var(--text); white-space:nowrap; }
+  .statusbar-mid{
+    display:flex; align-items:center; gap:8px;
+    white-space:nowrap;
+  }
+  .pulse{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 0 0 rgba(63,191,173,0.6);
+    animation:pulse 2.2s infinite;
+    flex:none;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(63,191,173,0.55); }
+    70%{ box-shadow:0 0 0 7px rgba(63,191,173,0); }
+    100%{ box-shadow:0 0 0 0 rgba(63,191,173,0); }
+  }
+  .statusbar nav{
+    display:flex; gap:18px;
+  }
+  .statusbar nav a{
+    text-decoration:none;
+    color:var(--text-dim);
+    letter-spacing:0.02em;
+  }
+  .statusbar nav a:hover{ color:var(--amber); }
+
+  .menu-toggle{
+    display:none;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    font-family:var(--font-mono);
+    font-size:11px;
+    padding:6px 10px;
+    cursor:pointer;
+  }
+  .menu-toggle:hover{ color:var(--amber); border-color:var(--amber); }
+
+  @media (max-width:760px){
+    .statusbar nav{
+      display:none;
+      position:absolute;
+      top:100%; left:0; right:0;
+      flex-direction:column;
+      gap:0;
+      background:#0A0E1A;
+      border-bottom:1px solid var(--line-soft);
+      padding:6px 0;
+    }
+    .statusbar nav.open{ display:flex; }
+    .statusbar nav a{
+      padding:12px 24px;
+      border-bottom:1px solid var(--line-soft);
+    }
+    .statusbar nav a:last-child{ border-bottom:none; }
+    .menu-toggle{ display:inline-flex; }
+  }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1fr 220px;
+    gap:40px;
+    align-items:start;
+  }
+  .hero-photo{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+  .hero-photo-frame{
+    width:100%;
+    aspect-ratio:3/4;
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:6px;
+    position:relative;
+  }
+  .hero-photo-frame::before{
+    content:'';
+    position:absolute;
+    top:14px; left:14px;
+    width:10px; height:10px;
+    border-top:1.5px solid var(--teal);
+    border-left:1.5px solid var(--teal);
+    z-index:2;
+  }
+  .hero-photo-frame::after{
+    content:'';
+    position:absolute;
+    bottom:14px; right:14px;
+    width:10px; height:10px;
+    border-bottom:1.5px solid var(--teal);
+    border-right:1.5px solid var(--teal);
+    z-index:2;
+  }
+  .hero-photo-frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:grayscale(0.55) contrast(1.05) brightness(0.98);
+  }
+  .hero-photo-caption{
+    margin:0;
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-faint);
+    letter-spacing:0.04em;
+  }
+
+  @media (max-width:720px){
+    .hero-grid{
+      grid-template-columns:1fr;
+    }
+    .hero-photo{
+      order:-1;
+      max-width:200px;
+      margin:0 auto 8px;
+    }
+  }
+
+  .hero{
+    padding:76px 0 40px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .hero-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:40px;
+    margin-bottom:34px;
+  }
+  .hero-text{ flex:1; min-width:0; }
+
+  .badge{
+    flex:none;
+    width:172px;
+    border:1px solid var(--line);
+    background:var(--panel);
+  }
+  .badge-photo{
+    width:100%;
+    aspect-ratio:3/4;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+    background:#000;
+  }
+  .badge-photo img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    filter:grayscale(0.15) contrast(1.03);
+  }
+  .badge-info{
+    padding:9px 10px 10px;
+    font-family:var(--font-mono);
+  }
+  .badge-info .b-name{
+    font-size:11.5px;
+    color:var(--text);
+    font-weight:600;
+    letter-spacing:0.02em;
+    margin-bottom:4px;
+  }
+  .badge-info .b-role{
+    font-size:9.5px;
+    color:var(--text-faint);
+    line-height:1.4;
+    margin-bottom:8px;
+  }
+  .badge-info .b-status{
+    display:flex; align-items:center; gap:5px;
+    font-size:9.5px;
+    color:var(--teal);
+  }
+  .badge-info .b-status .pulse{ width:5px; height:5px; }
+
+  @media (max-width:640px){
+    .hero-top{ flex-direction:column-reverse; align-items:flex-start; }
+    .badge{ width:120px; }
+  }
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--teal);
+    margin:0 0 18px;
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    line-height:1.04;
+    margin:0 0 6px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .hero-role{
+    font-family:var(--font-mono);
+    font-size:15px;
+    color:var(--text-dim);
+    margin:0 0 28px;
+  }
+  .hero-pitch{
+    max-width:62ch;
+    font-size:1.06rem;
+    color:#CBD3E3;
+    margin:0 0 34px;
+  }
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:44px;
+  }
+  .btn{
+    font-family:var(--font-mono);
+    font-size:13.5px;
+    padding:11px 18px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--text);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .btn:hover{ border-color:var(--amber); color:var(--amber); }
+  .btn.primary{
+    background:var(--amber);
+    color:#1A1206;
+    border-color:var(--amber);
+    font-weight:600;
+  }
+  .btn.primary:hover{ background:#f0b354; color:#1A1206; }
+
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:22px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-faint);
+  }
+  .hero-meta a{ color:var(--text-dim); text-decoration:none; }
+  .hero-meta a:hover{ color:var(--teal); }
+
+  /* ============================================================
+     LIVE FEED — the one deliberate animated centerpiece.
+     Simulated SOC telemetry, styled like a real event stream.
+  ============================================================ */
+  .feed{
+    border:1px solid var(--line);
+    background:var(--panel);
+    margin:0 0 4px;
+  }
+  .feed-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 16px;
+    border-bottom:1px solid var(--line-soft);
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .feed-head .dot-row{ display:flex; gap:6px; }
+  .feed-head .dot-row span{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--line);
+  }
+  .feed-body{
+    height:172px;
+    overflow:hidden;
+    position:relative;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    padding:10px 16px;
+  }
+  .feed-line{
+    display:flex; gap:10px;
+    padding:3px 0;
+    color:var(--text-dim);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    animation:feedIn .35s ease;
+  }
+  @keyframes feedIn{
+    from{ opacity:0; transform:translateY(-4px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .feed-line .t{ color:var(--text-faint); flex:none; }
+  .feed-line .sev{ flex:none; font-weight:600; }
+  .sev-high{ color:var(--red); }
+  .sev-med{ color:var(--amber); }
+  .sev-low{ color:var(--teal); }
+  .feed-line .msg{ color:#B9C3D9; overflow:hidden; text-overflow:ellipsis; }
+
+  @media (prefers-reduced-motion: reduce){
+    .feed-line{ animation:none; }
+    .pulse{ animation:none; }
+  }
+
+  /* ============================================================
+     SECTIONS — shared scaffolding
+  ============================================================ */
+  section{
+    padding:56px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  section:last-of-type{ border-bottom:none; }
+
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:30px;
+  }
+  .section-head h2{
+    font-size:1.5rem;
+    margin:0;
+    font-weight:700;
+  }
+  .section-head .count{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-faint);
+  }
+
+  /* ============================================================
+     EXPERIENCE — compact ticketed timeline
+  ============================================================ */
+  .xp{
+    border-left:2px solid var(--line);
+    padding-left:24px;
+    margin-bottom:30px;
+    position:relative;
+  }
+  .xp::before{
+    content:'';
+    position:absolute;
+    left:-6px; top:5px;
+    width:10px; height:10px;
+    background:var(--bg);
+    border:2px solid var(--teal);
+    border-radius:50%;
+  }
+  .xp:last-child{ margin-bottom:0; }
+  .xp-top{
+    display:flex; flex-wrap:wrap; justify-content:space-between;
+    align-items:baseline; gap:8px 16px;
+    margin-bottom:6px;
+  }
+  .xp-title{ font-size:1.06rem; font-weight:600; margin:0; }
+  .xp-org{ color:var(--text-dim); font-weight:400; }
+  .xp-date{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--amber);
+    white-space:nowrap;
+  }
+  .xp ul{ margin:0; padding-left:18px; color:#C4CCDD; }
+  .xp li{ margin-bottom:5px; }
+
+  /* ============================================================
+     PROJECTS — expandable case files
+  ============================================================ */
+  .case{
+    border:1px solid var(--line);
+    background:var(--panel);
+    margin-bottom:12px;
+  }
+  .case-head{
+    width:100%;
+    background:none;
+    border:none;
+    color:inherit;
+    font-family:inherit;
+    text-align:left;
+    padding:18px 18px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    cursor:pointer;
+  }
+  .case-head:hover{ background:var(--panel-2); }
+  .case-id{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+    flex:none;
+    width:70px;
+  }
+  .case-titles{ flex:1; min-width:0; }
+  .case-titles h3{
+    margin:0 0 3px;
+    font-size:1.02rem;
+    font-weight:600;
+  }
+  .case-titles p{
+    margin:0;
+    font-size:13.5px;
+    color:var(--text-dim);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .case-chevron{
+    flex:none;
+    width:16px; height:16px;
+    color:var(--text-faint);
+    transition:transform .2s ease;
+  }
+  .case[data-open="true"] .case-chevron{ transform:rotate(180deg); }
+
+  .case-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .32s ease;
+    border-top:1px solid transparent;
+  }
+  .case[data-open="true"] .case-body{
+    border-top:1px solid var(--line-soft);
+  }
+
+  .case-body-inner{ padding:20px 18px 24px; }
+
+  .case-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 28px;
+    margin-bottom:18px;
+  }
+  @media (max-width:640px){
+    .case-grid{ grid-template-columns:1fr; }
+  }
+  .case-block h4{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--amber);
+    margin:0 0 8px;
+    letter-spacing:0.03em;
+  }
+  .case-block p, .case-block li{
+    font-size:14.5px;
+    color:#C4CCDD;
+    margin:0;
+  }
+  .case-block ul{ margin:0; padding-left:18px; }
+  .case-block li{ margin-bottom:5px; }
+
+  .stackrow{
+    display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .chip{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    padding:4px 8px;
+    border:1px solid var(--line);
+    color:var(--text-dim);
+  }
+
+  .case-links{
+    display:flex; flex-wrap:wrap; gap:10px;
+    padding-top:16px;
+    border-top:1px solid var(--line-soft);
+    font-family:var(--font-mono);
+    font-size:12.5px;
+  }
+  .case-links a{
+    text-decoration:none;
+    color:var(--teal);
+    border:1px solid var(--line);
+    padding:6px 10px;
+  }
+  .case-links a:hover{ border-color:var(--teal); }
+
+  /* ============================================================
+     SKILLS
+  ============================================================ */
+  .skillgroup{ margin-bottom:22px; }
+  .skillgroup:last-child{ margin-bottom:0; }
+  .skillgroup h3{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--text-dim);
+    margin:0 0 10px;
+    font-weight:500;
+  }
+
+  /* ============================================================
+     CERTIFICATIONS / FORMATION
+  ============================================================ */
+  .twocol{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+  }
+  @media (max-width:720px){
+    .twocol{ grid-template-columns:1fr; gap:44px; }
+  }
+  .cert-row{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid var(--line-soft);
+    font-size:14.5px;
+  }
+  .cert-row:last-child{ border-bottom:none; }
+  .cert-row .org{ color:var(--text-dim); font-family:var(--font-mono); font-size:12.5px; }
+
+  .edu-item{ margin-bottom:20px; }
+  .edu-item:last-child{ margin-bottom:0; }
+  .edu-item h3{ margin:0 0 3px; font-size:1rem; font-weight:600; }
+  .edu-item .filiere{ color:var(--text-dim); font-size:14px; }
+  .edu-item .period{ font-family:var(--font-mono); font-size:12.5px; color:var(--amber); }
+
+  /* ============================================================
+     CONTACT / FOOTER
+  ============================================================ */
+  footer{ padding:56px 0 60px; }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 24px;
+    margin-bottom:36px;
+  }
+  @media (max-width:560px){ .contact-grid{ grid-template-columns:1fr; } }
+  .contact-line{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--font-mono);
+    font-size:14px;
+    text-decoration:none;
+    color:var(--text);
+    border:1px solid var(--line);
+    padding:12px 14px;
+    transition:border-color .15s ease;
+  }
+  .contact-line:hover{ border-color:var(--teal); color:var(--teal); }
+  .contact-line svg{ flex:none; width:16px; height:16px; opacity:0.8; }
+
+  footer .fine{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+  }
