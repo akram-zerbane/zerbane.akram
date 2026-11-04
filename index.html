@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akram Zerbane | Defensive Security Engineer</title>
+<meta name="description" content="Portfolio of Akram Zerbane: SOC operations, detection engineering and security automation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="layout">
+<aside>
+  <img src="assets/img/profile.jpg" alt="Akram Zerbane">
+  <h1>Akram Zerbane</h1>
+  <p class="role">Defensive security engineer<br>SOC and detection engineering</p>
+  <nav aria-label="Sections">
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="side-links">
+    <a href="https://github.com/AKRAM77778" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/akram-zerbane-61708936a/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:zerbaneakram697@gmail.com">Email</a>
+  </div>
+</aside>
+
+<main>
+<section id="about">
+  <p class="lead">I build and measure the systems a security operations center relies on: log pipelines, detection rules, automated response and the metrics that show whether they work.</p>
+  <p>I am a final-year engineering student in Intelligent Networks and Cybersecurity at ENSA Khouribga, based in Khouribga and Casablanca, Morocco. My work centers on defensive security: SIEM engineering, Sigma and Wazuh rule development, adversary emulation to test coverage, and SOAR playbooks that contain threats without waiting for an analyst.</p>
+  <div class="btns">
+    <a class="btn fill" href="#projects">View projects</a>
+    <a class="btn" href="assets/cv/CV_Akram_Zerbane.pdf" download>Download CV</a>
+  </div>
+</section>
+
+<section id="experience">
+  <h2>Experience</h2>
+  <div class="entry">
+    <div class="head"><h3>Cybersecurity and SOC intern</h3><span class="when">Jul 2026 – Aug 2026</span></div>
+    <p class="org">Eurafric Information</p>
+    <ul class="pts">
+      <li>Designed and set up a Use Case Factory to manage the full lifecycle of the SOC's detection use cases.</li>
+      <li>Mapped the underlying processes, defined the roles of the teams involved (CTI, SIRT and SOC engineering), and standardized validation and operational maintenance templates.</li>
+      <li>Defined KPIs and KRIs and built a dashboard to track how detection quality improves over time.</li>
+    </ul>
+  </div>
+  <div class="entry">
+    <div class="head"><h3>Web penetration testing intern</h3><span class="when">Jul 2025</span></div>
+    <p class="org">CAPVALUE</p>
+    <ul class="pts">
+      <li>Tested intentionally vulnerable web applications, from reconnaissance and enumeration to request analysis with Burp Suite.</li>
+      <li>Found and exploited SQL injection, cross-site scripting and broken access control (IDOR) flaws.</li>
+      <li>Documented each vulnerability with proof of exploitation and a recommended fix.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+
+  <div class="entry">
+    <h3>Continuous evaluation framework for the SOC detection lifecycle</h3>
+    <p class="tags">OpenProject, GitLab CI/CD, Wazuh, Sysmon, Atomic Red Team, Python, PostgreSQL, Grafana</p>
+    <ul class="pts" style="margin-top:12px">
+      <li>Runs a five-phase lifecycle through OpenProject, with a three-stage GitLab pipeline: XML lint, SSH deployment of rules to Wazuh, and Atomic Red Team simulation on four MITRE ATT&amp;CK techniques, 25 iterations each.</li>
+      <li>A Python ETL engine links OpenProject, GitLab and Wazuh/Sysmon alerts to compute mean time to detect (for example 34 s on T1218.010) and lead time, with clock-drift compensation.</li>
+      <li>Results are stored in PostgreSQL and tracked on Grafana.</li>
+    </ul>
+    <p class="result">Detection coverage rose from 75% to 100%.</p>
+  </div>
+
+  <div class="entry">
+    <h3>AI agent for autonomous Sigma rule generation and tuning</h3>
+    <p class="tags">CALDERA, FastAPI, Groq, Sigma, GitLab CI/CD, Python</p>
+    <ul class="pts" style="margin-top:12px">
+      <li>Emulated adversary behavior with CALDERA (T1005, T1057, T1047, T1518.001). A Python ETL engine ties each action to its logs by process ID and a ±20 s window.</li>
+      <li>Built an agent with FastAPI and Groq that writes Sigma rules aligned with MITRE ATT&amp;CK.</li>
+      <li>Each rule is tested automatically in CI/CD (true positive rate of at least 80%, zero false positives), with up to three correction attempts.</li>
+    </ul>
+    <p class="result">Four techniques reached 100% true positives and were deployed to the SIEM in under 25 seconds.</p>
+  </div>
+
+  <div class="entry">
+    <h3>Automated SOC deployment with detection and response</h3>
+    <p class="tags">Ansible, Wazuh, Suricata, pfSense, Sysmon, Auditd, Shuffle, Flask, Python</p>
+    <ul class="pts" style="margin-top:12px">
+      <li>Deployed a full SOC with Ansible (Wazuh, Suricata on pfSense, Sysmon, Auditd) across four isolated network zones in 12 minutes.</li>
+      <li>Wrote four Wazuh/Suricata detection rules for T1595.002, T1190, T1110 and T1218.010, and validated them against real attacks (Nmap, SQLmap, Hydra, Regsvr32).</li>
+      <li>Built a Python triage dashboard (MTTD, detection rate, false positives) and an automated response chain: Shuffle filters alerts, a Flask webhook triggers an Ansible playbook, and the attacker's IP is blocked on pfSense with pfctl. MTTR is measured through Wazuh.</li>
+    </ul>
+    <p class="result">100% detection and 0% false positives across the four rules.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <dl>
+    <dt>SOC and detection</dt><dd>Wazuh, ELK, Splunk, Sigma, MITRE ATT&amp;CK, Sysmon, Auditd, log analysis, digital forensics, SOAR</dd>
+    <dt>Adversary emulation and pentesting</dt><dd>Atomic Red Team, CALDERA, web application testing, Burp Suite, CTFs on HackTheBox and TryHackMe</dd>
+    <dt>Networks, cloud and systems</dt><dd>pfSense, TCP/IP, Wireshark, Active Directory, Linux, Windows, VMware, IAM, Azure, AWS</dd>
+    <dt>Automation</dt><dd>Ansible, GitLab CI/CD, Git, Docker, Bash, PowerShell</dd>
+    <dt>Development</dt><dd>Python, C/C++, JavaScript, SQL, FastAPI, PostgreSQL</dd>
+  </dl>
+</section>
+
+<section id="education">
+  <h2>Education and certifications</h2>
+  <div class="entry">
+    <div class="head"><h3>State Engineering Degree, Intelligent Networks and Cybersecurity</h3><span class="when">2024 – present</span></div>
+    <p class="org">ENSA Khouribga, final year</p>
+  </div>
+  <div class="entry">
+    <div class="head"><h3>Integrated Preparatory Classes</h3><span class="when">2022 – 2024</span></div>
+    <p class="org">ENSA Khouribga</p>
+  </div>
+  <div class="entry">
+    <h3>Certifications</h3>
+    <p class="org" style="margin-bottom:0">Cisco CyberOps Associate, Cisco DevNet Associate</p>
+  </div>
+  <div class="entry">
+    <h3>Training</h3>
+    <p class="org" style="margin-bottom:0">Cisco Network Security, Cisco Ethical Hacker, Red Hat Academy (RH294, RH124, RH134), AWS Academy Cloud Security Foundations, ISO/IEC 27001 Associate (SkillFront)</p>
+  </div>
+  <p class="org" style="margin-top:20px">Languages: English and French, both fluent.</p>
+</section>
+
+<section id="contact" class="contact">
+  <h2>Contact</h2>
+  <p>The best way to reach me is by email.</p>
+  <p><a href="mailto:zerbaneakram697@gmail.com">zerbaneakram697@gmail.com</a></p>
+  <p><a href="https://www.linkedin.com/in/akram-zerbane-61708936a/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;&nbsp; <a href="https://github.com/AKRAM77778" target="_blank" rel="noopener">GitHub</a></p>
+</section>
+
+<footer>&copy; 2026 Akram Zerbane</footer>
+</main>
+</div>
+</body>
+</html>
